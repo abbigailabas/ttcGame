@@ -5,6 +5,30 @@
 	<title>index.html</title>
 </head>
 <body>
+	<h1>index.html</h1>
+	<button type="button" data-name="user" id="btn1">press</button>
+	
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    
+    <script>
+
+    var socket = io();
+    
+    //on click functions
+    $('#btn1').on('click', function (event) {
+    	console.log("button pressed index");
+    });
+
+    socket.on('temperature', function() {
+    	console.log("button pressed index");
+    });
+
+    </script>
+
+
+
+
 	
 </body>
 </html>
