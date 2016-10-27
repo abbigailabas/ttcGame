@@ -14,10 +14,12 @@ var sockets = [];
 io.on('connection', function (socket) {
     console.log('a user connected');
     
-    //Listen for the event from the sensor.html
-    socket.on('temperature', function (event) {
-        console.log("Temp is" + temp);
-        io.emit('temperature', temp);
+    //Listen for the event from the index.html
+    socket.on('button pressed', function (data) {
+        console.log(data);
+        //sending to 'button pressed' 
+        //also sending the thing to be displayed(data)
+        io.emit('button pressed', data);
     });
     socket.on('disconnect', function () {
         console.log('user disconnected');

@@ -12,20 +12,15 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     
     <script>
-
+    
     var socket = io();
     
     //on click functions
-    $('#btn1').on('click', function (event) {
+    $('#btn1').on('click', function buttonPressed() {
     	console.log("button pressed index");
+        //first looking for channel'button pressed' then taking "hi"(the data to be passed to display)
+        socket.emit('button pressed', "hi");
     });
-
-    socket.emit('temperature', name);
-            console.log("You clicked on:", name);
-
-    // socket.on('temperature', function(msg) {
-    // 	// console.log("button pressed index");
-    // });
 
     </script>
 
