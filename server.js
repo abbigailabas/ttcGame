@@ -17,6 +17,7 @@ io.on('connection', function (socket) {
     //Listen for the event from the sensor.html
     socket.on('exitScreen', function (data) {
         io.emit('exitScreen', data);
+        
     });
     socket.on('disconnect', function () {
         console.log('user disconnected');
