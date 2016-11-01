@@ -5,9 +5,9 @@
 	<title>Display.html</title>
 </head>
 <body>
-	
-	<h1>Display.html</h1>
+
 	<ul id="messages"></ul>
+
 
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -17,8 +17,8 @@
 
         var socket = io();
 
-        socket.on('temperature', function(event) {
-            console.log("pressed button display");
+        socket.on('exitScreen', function(data) {
+            console.log("connection made");
         });
 
     </script>

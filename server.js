@@ -15,9 +15,8 @@ io.on('connection', function (socket) {
     console.log('a user connected');
     
     //Listen for the event from the sensor.html
-    socket.on('temperature', function (event) {
-        console.log("Temp is" + temp);
-        io.emit('temperature', temp);
+    socket.on('exitScreen', function (data) {
+        io.emit('exitScreen', data);
     });
     socket.on('disconnect', function () {
         console.log('user disconnected');

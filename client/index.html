@@ -5,28 +5,60 @@
 	<title>index.html</title>
 </head>
 <body>
-	<h1>index.html</h1>
 	<button type="button" data-name="user" id="btn1">press</button>
-	
+
+
+
+    <div id="circle" style="width: 100px; height:100px; border-radius: 50%; background-color: black;"></div>
+
+
+
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="js/jquery.pep.js"></script>
     
     <script>
 
-    var socket = io();
-    
-    //on click functions
-    $('#btn1').on('click', function (event) {
-    	console.log("button pressed index");
-    });
+    $('#circle').pep({
+        rest: function() {
+            if (($('#circle').position().top) < 0){
+                console.log("worked");
+                sendMessage();
+            }
 
-    socket.emit('temperature', name);
-            console.log("You clicked on:", name);
+        }
+    });
+    //sconsole.log($('#circle').position());
+
+
+
+
+
+    //var testPosition = $('#circle').position();
+
+    var socket = io();
+
+
+    function sendMessage() {
+      console.log("should sent emit");
+      socket.emit('exitScreen', "out of screen");
+    }
+
+    
+    // //on click functions
+    // $('#btn1').on('click', function (event) {
+    // 	console.log("button pressed index");
+    //        socket.emit('temperature', name);
+    // });
+
+
+            // console.log("You clicked on:", name);
 
     // socket.on('temperature', function(msg) {
     // 	// console.log("button pressed index");
     // });
 
+ 
     </script>
 
 
