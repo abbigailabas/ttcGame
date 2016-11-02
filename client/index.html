@@ -23,7 +23,7 @@
         rest: function() {
             if (($('#circle').position().top) < 0){
                 console.log("worked");
-                sendMessage();
+                animateDiagonal();
             }
 
         }
@@ -32,10 +32,16 @@
     var socket = io();
 
 
-    function sendMessage() {
-      console.log("should sent emit");
-      socket.emit('exitScreen', "out of screen");
+    // function sendMessage() {
+    //   console.log("should sent emit");
+    //   socket.emit('exitScreen', "out of screen");
+    // }
+
+    function animateDiagonal() {
+        console.log("diagonal!");
+        socket.emit('exitScreen', "out of screen");
     }
+
 
     </script>
 	

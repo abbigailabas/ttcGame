@@ -5,9 +5,26 @@
 	<title>Display.html</title>
 </head>
 <body>
-
+	<style>
+		.none{
+			visibility: hidden;
+		}
+		.show{
+			visibility: visible;
+		}
+		.animateAngle{
+			visibility: visible;
+			right: 50px;
+		}
+	</style>
 	
 	<h1>Display.html</h1>
+
+
+
+	<div id="circle" class="none" style="width: 100px; height:100px; border-radius: 50%; background-color: black;"></div>
+
+
 
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -17,8 +34,17 @@
 
         var socket = io();
 
-        socket.on('exitScreen', function(data) {
+        socket.on('exitScreen', function animateDiagonal(data) {
             console.log("connection made");
+            $('#circle').addClass('show');
+            console.log("test");
+            if ($('#circle').hasClass('show')) {
+            	$( '#circle' ).animate({ left: -10 });
+            } 
+
+            // function test(){
+            // 	$('#circle').animate({left: '+=30px', top: '+=30px'}, 1000);
+            // }
         });
 
     </script>
