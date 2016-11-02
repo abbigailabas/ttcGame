@@ -16,6 +16,11 @@
 			visibility: visible;
 			right: 50px;
 		}
+
+		#circle{
+			position: absolute;
+			display: inline-block;
+		}
 	</style>
 	
 	<h1>Display.html</h1>
@@ -31,16 +36,31 @@
 
 
 	<script>
+	loopSpeed = 10;
+	time = 0;
+	velocityY = 20; 
+	posY = 0 ; 
 
+	setInterval(function(){
+		time = time + loopSpeed/10000; 
+		posY = posY + velocityY*time;
+		$('#circle').css({bottom: posY - 120 });
+	}, loopSpeed);
         var socket = io();
 
         socket.on('exitScreen', function animateDiagonal(data) {
+        	posY = 0;
+        	time =0;
+        	console.log(data);
             console.log("connection made");
             $('#circle').addClass('show');
             console.log("test");
-            if ($('#circle').hasClass('show')) {
-            	$( '#circle' ).animate({ left: -10 });
-            } 
+            var lastPositionX = data.last5Moves[4].x;
+            console.log(lastPositionX);
+            $('#circle').css({left: lastPositionX-50})
+            // if ($('#circle').hasClass('show')) {
+            // 	$( '#circle' ).animate({ left: -10 });
+            // } 
 
             // function test(){
             // 	$('#circle').animate({left: '+=30px', top: '+=30px'}, 1000);

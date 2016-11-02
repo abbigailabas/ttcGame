@@ -18,7 +18,7 @@
     <script src="js/jquery.pep.js"></script>
     
     <script>
-
+    var infoOfMyBall = {};
     $('#circle').pep({
         rest: function() {
             if (($('#circle').position().top) < 0){
@@ -26,6 +26,12 @@
                 animateDiagonal();
             }
 
+        },
+        drag: function(ev, obj){
+           // console.log(ev, obj);
+
+infoOfMyBall.lastXY  = obj.velocity();
+infoOfMyBall.last5Moves = obj.velocityQueue;
         }
     });
 
@@ -39,7 +45,7 @@
 
     function animateDiagonal() {
         console.log("diagonal!");
-        socket.emit('exitScreen', "out of screen");
+        socket.emit('exitScreen', infoOfMyBall);
     }
 
 
