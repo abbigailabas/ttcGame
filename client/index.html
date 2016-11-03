@@ -5,36 +5,52 @@
 	<title>index.html</title>
 </head>
 <body>
-	<button type="button" data-name="user" id="btn1">press</button>
-
-
-
-    <div id="circle" style="width: 100px; height:100px; border-radius: 50%; background-color: black;"></div>
-
-
-
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="js/jquery.pep.js"></script>
     
     <script>
 
-    $('#circle').pep({
-        rest: function() {
-            if (($('#circle').position().top) < 0){
-                console.log("worked");
-                sendMessage();
-            }
+    var puckData;
+    var startPos = {x: ($(window).width()/2-50),  y: ($(window).height()-100)};
+    var endPos;
+    var angleDeg;
 
-        }
-    });
+    function createPuck(){
+        var div = document.createElement("div");
+        div.style.width = "100px";
+        div.style.height = "100px";
+        div.style.borderRadius = "50%";
+        div.style.background = "black";
+        div.style.left = startPos.x + "px";
+        div.style.top = startPos.y + "px";
+        div.id = "circle";
+        document.body.appendChild(div);
+
+        $('#circle').pep({
+            rest: function() {
+                if (($('#circle').position().top) < -90){
+                    console.log("worked");
+
+                    endPos = {x: $('#circle').position().left, y: $('#circle').position().top};
+                    angleDeg = Math.round(Math.atan2(endPos.y - startPos.y, endPos.x - startPos.x) * 180 / Math.PI);
+
+                    puckData = {x: endPos.x, y: endPos.y, degrees: angleDeg};
+                    sendMessage();
+                }  
+            }
+        });
+    }
+
+    createPuck();
 
     var socket = io();
 
-
     function sendMessage() {
-      console.log("should sent emit");
-      socket.emit('exitScreen', "out of screen");
+        console.log("should sent emit");
+        socket.emit('exitScreen', puckData);
+        $('#circle').remove();
+        createPuck();
     }
 
     </script>

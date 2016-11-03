@@ -2,13 +2,21 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Display.html</title>
 </head>
 <body>
 
-	
-	<h1>Display.html</h1>
+	<style>
+		#circle {
+			position: absolute;
+			display: inline-block;
+		}
 
+
+	</style>
+
+
+
+	
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 
@@ -19,7 +27,39 @@
 
         socket.on('exitScreen', function(data) {
             console.log("connection made");
+            console.log("location: " + data.x + " " + data.y + " " + data.degrees);
+
+        $('#circle').remove();
+
+   		createPuck(data.x, data.degrees);
+
         });
+
+
+        function createPuck(xValue, degrees) {
+	        var div = document.createElement("div");
+			div.style.width = "100px";
+			div.style.height = "100px";
+			div.style.borderRadius = "50%";
+			div.style.background = "black";
+			div.style.left = xValue + "px";
+			div.style.top = $(window).height() + "px";
+			div.id = "circle";
+
+			console.log(div.style.left);
+			document.body.appendChild(div);
+
+
+
+	        var dist = $(window).height();
+	        var angle = degrees;
+	        var x = Math.cos(angle*Math.PI/180) * dist;
+	        var y = Math.sin(angle*Math.PI/180) * dist;
+	        $("#circle").animate({left: '+='+x+'px', top: '+='+y+'px'}, 1000); 
+	        	console.log(x);
+	        	console.log(y);
+
+        }
 
     </script>
 
