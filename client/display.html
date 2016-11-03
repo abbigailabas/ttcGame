@@ -25,7 +25,7 @@
 	
 	<h1>Display.html</h1>
 
-
+	<div><span id="time">01:00</span></div>
 
 	<div id="circle" class="none" style="width: 100px; height:100px; border-radius: 50%; background-color: black;"></div>
 
@@ -40,33 +40,59 @@
 	time = 0;
 	velocityY = 20; 
 	posY = 0 ; 
-
 	setInterval(function(){
 		time = time + loopSpeed/10000; 
 		posY = posY + velocityY*time;
 		$('#circle').css({bottom: posY - 120 });
 	}, loopSpeed);
-       
-        var socket = io();
 
-        socket.on('exitScreen', function animateDiagonal(data) {
-        	posY = 0;
-        	time =0;
-        	console.log(data);
-            console.log("connection made");
-            $('#circle').addClass('show');
-            console.log("test");
-            var lastPositionX = data.last5Moves[4].x;
-            console.log(lastPositionX);
-            $('#circle').css({left: lastPositionX-50})
-            // if ($('#circle').hasClass('show')) {
-            // 	$( '#circle' ).animate({ left: -10 });
-            // } 
+	
 
-            // function test(){
-            // 	$('#circle').animate({left: '+=30px', top: '+=30px'}, 1000);
-            // }
-        });
+    var socket = io();
+
+    socket.on('exitScreen', function animateDiagonal(data) {
+        posY = 0;
+       	time =0;
+       	console.log(data);
+        console.log("connection made");
+      	$('#circle').addClass('show');
+       	console.log("test");
+        var lastPositionX = data.last5Moves[4].x;
+        console.log(lastPositionX);
+        $('#circle').css({left: lastPositionX-50}) 	
+    });
+
+
+
+
+ //    function startTimer(duration, display) {
+	//     var timer = duration, minutes, seconds;
+	//     setInterval(function () {
+	//         minutes = parseInt(timer / 60, 10)
+	//         seconds = parseInt(timer % 60, 10);
+
+	//         minutes = minutes < 10 ? "0" + minutes : minutes;
+	//         seconds = seconds < 10 ? "0" + seconds : seconds;
+
+	//         display.text(minutes + ":" + seconds);
+
+	//         if (--timer < 0) {
+	//             timer = duration;
+	//         } 
+	//     }, 1000);
+	// }
+
+	// jQuery(function ($) {
+	//     var fiveMinutes = 60 * 1,
+	//         display = $('#time');
+	//     startTimer(fiveMinutes, display);
+	// });
+	
+	var gameOver = setInterval(endGame, 60000);
+	function endGame(){
+		clearInterval(gameOver);
+		alert("game over!");
+	};
 
     </script>
 
