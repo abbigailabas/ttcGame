@@ -12,7 +12,9 @@
 		}
 	</style>
 
-
+	
+	<span>Time Left: </span><div id="countdown">10</div>
+	
 
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -20,31 +22,35 @@
 
 	<script>
 
-	   var socket = io();
+		var socket = io();
+		// timer function starts
+		// code for the start game btn to work! 
+		// it works
+		socket.on('exitScreen', function(start) {
+			console.log('start button pressed at index.');
+			var seconds;
+			var temp;
+			function countdown() {
+			    seconds = document.getElementById('countdown').innerHTML;
+			    seconds = parseInt(seconds, 10);
+			 
+			    if (seconds == 0) {
+			      temp = document.getElementById('countdown');
+			      // temp.innerHTML = "all done, bye bye";
+			      alert("game over!");
+			      return;
+			    }
+			 
+			    seconds--;
+			    temp = document.getElementById('countdown');
+			    temp.innerHTML = seconds;
+			    timeoutMyOswego = setTimeout(countdown, 1000);
+			}
+			countdown();
 
-
-	// loopSpeed = 10;
-	// time = 0;
-	// velocityY = 20; 
-	// posY = 0 ; 
-	// setInterval(function(){
-	// 	time = time + loopSpeed/10000; 
-	// 	posY = posY + velocityY*time;
-	// 	$('#circle').css({bottom: posY - 120 });
-	// }, loopSpeed);
-
-    // socket.on('exitScreen', function animateDiagonal(data) {
-    //     posY = 0;
-    //    	time =0;
-    //    	console.log(data);
-    //     console.log("connection made");
-    //   	$('#circle').addClass('show');
-    //    	console.log("test");
-    //     var lastPositionX = data.last5Moves[4].x;
-    //     console.log(lastPositionX);
-    //     $('#circle').css({left: lastPositionX-50}) 	
-    // });
-
+		}) 
+		// timer function ends
+		
         socket.on('exitScreen', function(data) {
             console.log("connection made");
             console.log("location: " + data.x + " " + data.y + " " + data.degrees);
@@ -54,13 +60,6 @@
    		createPuck(data.x, data.degrees);
 
         });
-
-	// var gameOver = setInterval(endGame, 60000);
-	// function endGame(){
-	// 	clearInterval(gameOver);
-	// 	alert("game over!");
-	// };
-
 
         function createPuck(xValue, degrees) {
 	        var div = document.createElement("div");
@@ -87,6 +86,13 @@
 
         }
 
+
+	// var gameOver = setInterval(endGame, 60000);
+	// function endGame(){
+	// 	clearInterval(gameOver);
+	// 	alert("game over!");
+	// };        
+
 	// loopSpeed = 10;
 	// time = 0;
 	// velocityY = 20; 
@@ -96,8 +102,6 @@
 	// 	posY = posY + velocityY*time;
 	// 	$('#circle').css({bottom: posY - 120 });
 	// }, loopSpeed);
-
-	
 
  //    var socket = io();
 

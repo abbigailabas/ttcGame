@@ -5,6 +5,10 @@
 	<title>index.html</title>
 </head>
 <body>
+    <!-- for start game -->
+    <button onclick="startGameBtn()">start game</button>
+
+
 
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -52,8 +56,6 @@
         });
     }    
 
-    createPuck();
-
     //     drag: function(ev, obj){
     //        // console.log(ev, obj);
 
@@ -63,7 +65,7 @@
 
     // }); 
 
-
+    createPuck();
 
     var socket = io();
 
@@ -73,7 +75,17 @@
         $('#circle').remove();
         createPuck();
 
-    }   
+    } 
+
+    // for start game
+    function startGameBtn() {
+        console.log("start btn pressed");
+        socket.emit('exitScreen', 'data');
+    }
+
+
+
+
 //         },
 //         drag: function(ev, obj){
 //            // console.log(ev, obj);
