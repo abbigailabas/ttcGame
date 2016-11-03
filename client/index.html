@@ -5,11 +5,13 @@
 	<title>index.html</title>
 </head>
 <body>
+
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="js/jquery.pep.js"></script>
     
     <script>
+
 
     var puckData;
     var startPos = {x: ($(window).width()/2-50),  y: ($(window).height()-100)};
@@ -52,6 +54,17 @@
 
     createPuck();
 
+    //     drag: function(ev, obj){
+    //        // console.log(ev, obj);
+
+    //     infoOfMyBall.lastXY  = obj.velocity();
+    //     infoOfMyBall.last5Moves = obj.velocityQueue;
+    //     }
+
+    // }); 
+
+
+
     var socket = io();
 
     function sendMessage() {
@@ -82,6 +95,7 @@
     //     console.log("diagonal!");
     //     socket.emit('exitScreen', infoOfMyBall);
     //}
+
 
 
     </script>
