@@ -46,6 +46,7 @@
 		posY = posY + velocityY*time;
 		$('#circle').css({bottom: posY - 120 });
 	}, loopSpeed);
+       
         var socket = io();
 
         socket.on('exitScreen', function animateDiagonal(data) {
