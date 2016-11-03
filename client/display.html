@@ -16,14 +16,36 @@
 
 
 
-	
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 
 
 	<script>
 
-        var socket = io();
+	   var socket = io();
+
+
+	// loopSpeed = 10;
+	// time = 0;
+	// velocityY = 20; 
+	// posY = 0 ; 
+	// setInterval(function(){
+	// 	time = time + loopSpeed/10000; 
+	// 	posY = posY + velocityY*time;
+	// 	$('#circle').css({bottom: posY - 120 });
+	// }, loopSpeed);
+
+    // socket.on('exitScreen', function animateDiagonal(data) {
+    //     posY = 0;
+    //    	time =0;
+    //    	console.log(data);
+    //     console.log("connection made");
+    //   	$('#circle').addClass('show');
+    //    	console.log("test");
+    //     var lastPositionX = data.last5Moves[4].x;
+    //     console.log(lastPositionX);
+    //     $('#circle').css({left: lastPositionX-50}) 	
+    // });
 
         socket.on('exitScreen', function(data) {
             console.log("connection made");
@@ -34,6 +56,12 @@
    		createPuck(data.x, data.degrees);
 
         });
+
+	// var gameOver = setInterval(endGame, 60000);
+	// function endGame(){
+	// 	clearInterval(gameOver);
+	// 	alert("game over!");
+	// };
 
 
         function createPuck(xValue, degrees) {
