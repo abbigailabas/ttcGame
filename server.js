@@ -11,13 +11,27 @@ router.use(express.static(path.resolve(__dirname, 'client')));
 // Variables to hold the messages and the sockets
 var messages = [];
 var sockets = [];
+var playing = false;
 io.on('connection', function (socket) {
     console.log('a user connected');
     
     //Listen for the event from the sensor.html
     socket.on('exitScreen', function (data1) {
-        io.emit('exitScreen', data1);
-
+        if (playing == true) {
+            io.emit('exitScreen', data1);
+        }
+    });
+    socket.on('newGame', function (data1) {
+        if (playing == false) {
+            playing = true;
+            io.emit('newGame', 'abby');    
+        }
+    });
+    socket.on('gameOver', function (data1) {
+        if (playing == true) {
+            playing = false;
+            io.emit('gameOver', 'data');
+        }
     });
     socket.on('disconnect', function () {
         console.log('user disconnected');

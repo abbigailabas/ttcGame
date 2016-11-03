@@ -26,17 +26,22 @@
 		// timer function starts
 		// code for the start game btn to work! 
 		// it works
-		socket.on('exitScreen', function(start) {
-			console.log('start button pressed at index.');
-			var seconds;
+		var seconds;
 			var temp;
-			function countdown() {
-			    seconds = document.getElementById('countdown').innerHTML;
-			    seconds = parseInt(seconds, 10);
+			function countdown(isNew) {
+				if(isNew===undefined){
+					isNew = false;
+				}
+			    
+			    if(isNew){
+			    	seconds = 10;
+			    }
+			    // seconds = parseInt(seconds, 10);
 			 
 			    if (seconds == 0) {
 			      temp = document.getElementById('countdown');
 			      // temp.innerHTML = "all done, bye bye";
+			      socket.emit('gameOver', 'data');
 			      alert("game over!");
 			      return;
 			    }
@@ -46,7 +51,9 @@
 			    temp.innerHTML = seconds;
 			    timeoutMyOswego = setTimeout(countdown, 1000);
 			}
-			countdown();
+		socket.on('newGame', function(start) {
+			
+			countdown(true);
 
 		}) 
 		// timer function ends
