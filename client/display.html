@@ -1,30 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<title>Game Display</title>
 	<meta charset="UTF-8">
 </head>
 <body>
 
 	<style>
+
+		* {
+    		margin: 0px;
+    		padding: 0px;
+			font-family: futura;
+			color: pink;
+		}
+		body {
+			background-image: url('images/game_background.png');
+		}
 		#circle {
 			position: absolute;
 			display: inline-block;
+			background-image: url('images/token_blue.png');
+			background-size: cover;
 		}
+        .pointContainer {
+        	display: flex;
+        }
+
+        .garbageCan {
+        	display: inline-block;
+        }
+        .garbageCan img {
+        	width: 100%;
+        	display: inline-block;
+        	overflow: hidden;
+        }
+		.gameInfo {
+			width: 100%;
+			background-color: #2384c9;
+			display: inline-block;
+		}
+		.gameInfoMiddle {
+			width: 25%;
+			height: 10%;
+			margin: 0 auto;
+			/*display: inline-block;*/
+		}
+
 	</style>
 
-	
-	<span>Time Left: </span><div id="countdown">10</div>
-	
+	<div class="gameInfo">
+		<div class="gameInfoMiddle">
+			<div class="gameTime">Time Left: </div><div id="countdown">60</div>
+			<span class="gameScore">Score:</span><div id="teamScore">0</div>
+		</div>
+	</div>
 
+
+	<div id="wrapper">
+		<div class="pointContainer">
+			<div class="garbageCan d1"><img src="/images/recycle.png"></div>
+			<div class="garbageCan d2"><img src="/images/litter.png"></div>
+			<div class="garbageCan d3"><img src="/images/farecollector.png"></div>
+			<div class="garbageCan d4"><img src="/images/litter.png"></div>
+			<div class="garbageCan d5"><img src="/images/recycle.png"></div>
+		</div>
+	</div>
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="collision/jquery-collision.js"></script>
 
 
 	<script>
-
 		var socket = io();
+		var score = 0;
+		var hit1 = 0;
+		var hit2 = 0;
+		var hit3 = 0;
+		var hit4 = 0;
+		var hit5 = 0;
+		var hitCount1 = 0;
+		var hitCount2 = 0;
+		var hitCount3 = 0;
+		var hitCount4 = 0;
+		var hitCount5 = 0;
 		// timer function starts
-		// code for the start game btn to work! 
+		// code for the start game btn to work!
 		// it works
 		var seconds;
 			var temp;
@@ -32,12 +93,12 @@
 				if(isNew===undefined){
 					isNew = false;
 				}
-			    
+
 			    if(isNew){
-			    	seconds = 10;
+			    	seconds = 60;
 			    }
 			    // seconds = parseInt(seconds, 10);
-			 
+
 			    if (seconds == 0) {
 			      temp = document.getElementById('countdown');
 			      // temp.innerHTML = "all done, bye bye";
@@ -45,19 +106,20 @@
 			      alert("game over!");
 			      return;
 			    }
-			 
+
 			    seconds--;
 			    temp = document.getElementById('countdown');
 			    temp.innerHTML = seconds;
 			    timeoutMyOswego = setTimeout(countdown, 1000);
 			}
 		socket.on('newGame', function(start) {
-			
-			countdown(true);
 
-		}) 
+			countdown(true);
+			console.log('hi');
+
+		})
 		// timer function ends
-		
+
         socket.on('exitScreen', function(data) {
             console.log("connection made");
             console.log("location: " + data.x + " " + data.y + " " + data.degrees);
@@ -69,11 +131,18 @@
         });
 
         function createPuck(xValue, degrees) {
+					hit1 = 0;
+					hit2 = 0;
+					hit3 = 0;
+					hit4 = 0;
+					hit5 = 0;
+
 	        var div = document.createElement("div");
 			div.style.width = "100px";
 			div.style.height = "100px";
 			div.style.borderRadius = "50%";
-			div.style.background = "black";
+			// div.style.backgroundImage = "images/token_blue.png";
+			// div.style.background = "black";
 			div.style.left = xValue + "px";
 			div.style.top = $(window).height() + "px";
 			div.id = "circle";
@@ -83,50 +152,51 @@
 
 
 
+			// Tracking release from index.html
 	        var dist = $(window).height();
 	        var angle = degrees;
 	        var x = Math.cos(angle*Math.PI/180) * dist;
 	        var y = Math.sin(angle*Math.PI/180) * dist;
-	        $("#circle").animate({left: '+='+x+'px', top: '+='+y+'px'}, 1000); 
+	        $("#circle").animate({left: '+='+x+'px', top: '+='+y+'px'}, {
+	        	duration:1000,
+	        	step: function(){
+	        		var h1 = $("#circle").collision('.d1');
+	        		var h2 = $("#circle").collision('.d2');
+	        		var h3 = $("#circle").collision('.d3');
+	        		var h4 = $("#circle").collision('.d4');
+	        		var h5 = $("#circle").collision('.d5');
+					if(h1.length > 0) hit1 = 1;
+					if(h2.length > 0) hit2 = 1;
+					if(h3.length > 0) hit3 = 1;
+					if(h4.length > 0) hit4 = 1;
+					if(h5.length > 0) hit5 = 1;
+	        	},
+	        	complete: function(){
+
+					if(hit1 == 1) score ++;
+					if(hit2 == 1) score --;
+					if(hit3 == 1) score +=5;
+					if(hit4 == 1) score --;
+					if(hit5 == 1) score ++;
+
+					$("#teamScore").html(score);
+
+	        		console.log("hit 1 " + score);
+	        	}
+
+
+	        });
 	        	console.log(x);
 	        	console.log(y);
 
-        }
 
+	        	// When ball "circle" reaches targeted area
+	        // function addScore(xValue, value){
+	        // 	var document.getElementById("#cirlce");
+	        // 	$("#circle").position("location: " + data.x + " " + data.y + " " + data.degrees);
+	        	// Plus 1 point
+	        }
 
-	// var gameOver = setInterval(endGame, 60000);
-	// function endGame(){
-	// 	clearInterval(gameOver);
-	// 	alert("game over!");
-	// };        
-
-	// loopSpeed = 10;
-	// time = 0;
-	// velocityY = 20; 
-	// posY = 0 ; 
-	// setInterval(function(){
-	// 	time = time + loopSpeed/10000; 
-	// 	posY = posY + velocityY*time;
-	// 	$('#circle').css({bottom: posY - 120 });
-	// }, loopSpeed);
-
- //    var socket = io();
-
- //    socket.on('exitScreen', function animateDiagonal(data) {
- //        posY = 0;
- //       	time =0;
- //       	console.log(data);
- //        console.log("connection made");
- //      	$('#circle').addClass('show');
- //       	console.log("test");
- //        var lastPositionX = data.last5Moves[4].x;
- //        console.log(lastPositionX);
- //        $('#circle').css({left: lastPositionX-50}) 	
- //    });
-
- //    socket.on('exitScreen', function startTimeBtn(data) {
- //    	console.log("should start time now");
- //    })
 
 
 

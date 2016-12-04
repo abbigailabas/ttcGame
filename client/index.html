@@ -3,20 +3,65 @@
 <head>
 	<meta charset="UTF-8">
 	<title>index.html</title>
+    <style type="text/css" media="screen">
+         body{
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+			background-image: url('images/game_background.png');
+        }
+        #wrapper{
+            height: calc(100% + 150px);
+            position: absolute !important;
+            bottom: 0;
+            width: 100vw;
+			/*text-align: center;*/
+        }
+        .startGame{
+            position: absolute;
+            top: 150px;
+            left: 0;
+			height: 80px;
+			width: 100px;
+			padding: 1%;
+			/*margin: 0 auto;*/
+			border-radius: 5%;
+			background-color: #aae357;
+			border: none;
+			font-size: 17px;
+			font-family: futura;
+			color: white;
+        }
+		#circle {
+			background-image: url('images/token_blue.png');
+			background-size: cover;
+		}
+
+		/* for mobile screen size change bg to mobile bg image */
+		@media only screen and (max-width: 320px) {
+    		body {
+        		background-image: url('images/device_background.png');
+				background-size: cover;
+    		}
+		}
+    </style>
 </head>
 <body>
     <!-- for start game -->
-    <button onclick="startGameBtn()">start game</button>
+
 
 
 
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="js/jquery.pep.js"></script>
-    
+
+<div id="wrapper">
+  <button id="startGameBtnId" class="startGame" onclick="startGameBtn()">start game</button>
+</div>
+
     <script>
-
-
     var puckData;
     var startPos = {x: ($(window).width()/2-50),  y: ($(window).height()-100)};
     var endPos;
@@ -27,15 +72,21 @@
         div.style.width = "100px";
         div.style.height = "100px";
         div.style.borderRadius = "50%";
-        div.style.background = "black";
+        // div.style.background = "black";
         div.style.left = startPos.x + "px";
         div.style.top = startPos.y + "px";
         div.id = "circle";
-        document.body.appendChild(div);
+        $("#wrapper").append(div);
 
         $('#circle').pep({
-            rest: function() {
-                if (($('#circle').position().top) < -90){
+            constrainTo:"parent",
+            useCSSTranslation: false,
+            //RB NOTE: I changed this from stopped to easing. What that will do is start to track the position of the ball as it starts to slow down.
+            easing: function() {
+                //RB NOTE: I used this console.log to start tracking the position of the ball / circle as it slows down.
+                console.log("Slowing Down, the position is: " + $('#circle').position().top);
+                //RB NOTE: You will notice that .position().top of the #circle never gets below 0. You had -90 as the position trigger...this is why it wasn't working. I set this to 40 as the trigger...it makes for a very fast trigger / redraw the token. You might want to go closer to 0 to have more of a delay.
+                if (($('#circle').position().top) <= 10){
                     console.log("worked");
 
                     endPos = {x: $('#circle').position().left, y: $('#circle').position().top};
@@ -43,7 +94,10 @@
 
                     puckData = {x: endPos.x, y: endPos.y, degrees: angleDeg};
                     sendMessage();
-                }  
+                }
+
+
+
 
     // var infoOfMyBall = {};
     // $('#circle').pep({
@@ -54,7 +108,7 @@
     //         }
             }
         });
-    }    
+    }
 
     //     drag: function(ev, obj){
     //        // console.log(ev, obj);
@@ -63,7 +117,8 @@
     //     infoOfMyBall.last5Moves = obj.velocityQueue;
     //     }
 
-    // }); 
+    // });
+
 
     createPuck();
 
@@ -75,16 +130,14 @@
         $('#circle').remove();
         createPuck();
 
-    } 
+    }
 
     // for start game
     function startGameBtn() {
         console.log("start btn pressed at index");
+		// $("#startGameBtnId").css("display", "none");
         socket.emit('newGame', 'data');
     }
-
-
-
 
 //         },
 //         drag: function(ev, obj){
@@ -111,6 +164,6 @@
 
 
     </script>
-	
+
 </body>
 </html>
