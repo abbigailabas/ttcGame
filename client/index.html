@@ -92,25 +92,9 @@
                     puckData = {x: endPos.x, y: endPos.y, degrees: angleDeg};
                     sendMessage();
                 }
-
-
-
-
-    
             }
         });
     }
-
-    //     drag: function(ev, obj){
-    //        // console.log(ev, obj);
-
-    //     infoOfMyBall.lastXY  = obj.velocity();
-    //     infoOfMyBall.last5Moves = obj.velocityQueue;
-    //     }
-
-    // });
-
-
     createPuck();
 
     var socket = io();
@@ -129,30 +113,6 @@
 		// $("#startGameBtnId").css("display", "none");
         socket.emit('newGame', 'data');
     }
-
-//         },
-//         drag: function(ev, obj){
-//            // console.log(ev, obj);
-
-// infoOfMyBall.lastXY  = obj.velocity();
-// infoOfMyBall.last5Moves = obj.velocityQueue;
-//         }
-//     });
-
-//     var socket = io();
-
-
-    // function sendMessage() {
-    //   console.log("should sent emit");
-    //   socket.emit('exitScreen', "out of screen");
-    // }
-
-    // function animateDiagonal() {
-    //     console.log("diagonal!");
-    //     socket.emit('exitScreen', infoOfMyBall);
-    //}
-
-
 
     </script>
 
