@@ -14,7 +14,6 @@
 		</div>
 	</div>
 
-
 	<div id="wrapper">
 		<div class="pointContainer">
 			<div class="garbageCan d1"><img src="/images/recycle.png"></div>
@@ -23,11 +22,11 @@
 			<div class="garbageCan d4"><img src="/images/litter.png"></div>
 			<div class="garbageCan d5"><img src="/images/recycle.png"></div>
 		</div>
-	</div>
+	 </div> <!-- wrapper end -->
+
 	<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="collision/jquery-collision.js"></script>
-
 
 	<script>
 		var socket = io();
@@ -108,8 +107,6 @@
 			console.log(div.style.left);
 			document.body.appendChild(div);
 
-
-
 			// Tracking release from index.html
 	        var dist = $(window).height();
 	        var angle = degrees;
@@ -142,21 +139,10 @@
 	        		console.log("hit 1 " + score);
 	        	}
 
-
 	        });
 	        	console.log(x);
 	        	console.log(y);
-
-
-	        	// When ball "circle" reaches targeted area
-	        // function addScore(xValue, value){
-	        // 	var document.getElementById("#cirlce");
-	        // 	$("#circle").position("location: " + data.x + " " + data.y + " " + data.degrees);
-	        	// Plus 1 point
 	        }
-
-
-
 
     </script>
 
