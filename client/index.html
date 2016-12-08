@@ -110,7 +110,8 @@
     // for start game
     function startGameBtn() {
         console.log("start btn pressed at index");
-		// $("#startGameBtnId").css("display", "none");
+		var snd = new Audio("sounds/TTC_ringtone.m4r"); // buffers automatically when created
+		snd.play();
         socket.emit('newGame', 'data');
     }
 
