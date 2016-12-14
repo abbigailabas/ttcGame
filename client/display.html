@@ -4,15 +4,24 @@
 	<title>Game Display</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="/css/displaystyles.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="collision/jquery-collision.js"></script>
+
 </head>
 <body>
 
+
 	<div class="gameInfo">
-		<div class="gameInfoMiddle">
-			<div class="gameTime">Time Left: </div><div id="countdown">60</div>
-			<span class="gameScore">Score:</span><div id="teamScore">0</div>
-		</div>
-	</div>
+        <div class="gameInfoMiddle">
+            <div class="wrapper"><div class="gameTime">Time Left: </div><div id="countdown">60</div></div>
+            <div class="wrapper"><span class="gameScore">Score:</span><div class="teamScore">0</div></div>
+            <div class="highScore">High Score <br> Dundas Station: 1526 points</div>
+        </div>
+    </div>
 
 	<div id="wrapper">
 		<div class="pointContainer">
@@ -22,13 +31,16 @@
 			<div class="garbageCan d4"><img src="/images/litter.png"></div>
 			<div class="garbageCan d5"><img src="/images/recycle.png"></div>
 		</div>
-	 </div> <!-- wrapper end -->
+	</div>
+	<div class="alert alert-success alert-dismissable fade in">
+	    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+	    <strong>Game Over!</strong> Your station finished with a score of<div class="teamScore">0</div> points!
+  	</div>
 
-	<script src="/socket.io/socket.io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="collision/jquery-collision.js"></script>
 
 	<script>
+	$(".alert-dismissable").hide();
+
 		var socket = io();
 		var score = 0;
 		var hit1 = 0;
@@ -60,7 +72,9 @@
 			      temp = document.getElementById('countdown');
 			      // temp.innerHTML = "all done, bye bye";
 			      socket.emit('gameOver', 'data');
-			      alert("game over!");
+			      // alert("game over!");
+			      $(".alert-dismissable").show();
+
 			      return;
 			    }
 
@@ -78,16 +92,16 @@
 		// timer function ends
 
         socket.on('exitScreen', function(data) {
-            console.log("connection made");
+            console.log("connection made", data);
             console.log("location: " + data.x + " " + data.y + " " + data.degrees);
 
-        $('#circle').remove();
+        $('#circle'+ data.userId).remove();
 
-   		createPuck(data.x, data.degrees);
+   		createPuck(data.x, data.degrees,data.userId);
 
         });
 
-        function createPuck(xValue, degrees) {
+        function createPuck(xValue, degrees, userId) {
 					hit1 = 0;
 					hit2 = 0;
 					hit3 = 0;
@@ -95,30 +109,33 @@
 					hit5 = 0;
 
 	        var div = document.createElement("div");
-			div.style.width = "100px";
-			div.style.height = "100px";
+			div.style.width = "50px";
+			div.style.height = "50px";
 			div.style.borderRadius = "50%";
 			// div.style.background = "black";
 			div.style.left = xValue + "px";
 			div.style.top = $(window).height() + "px";
-			div.id = "circle";
+			div.id = "circle"+userId;
+			div.className = "circle";
 
 			console.log(div.style.left);
 			document.body.appendChild(div);
+
+
 
 			// Tracking release from index.html
 	        var dist = $(window).height();
 	        var angle = degrees;
 	        var x = Math.cos(angle*Math.PI/180) * dist;
 	        var y = Math.sin(angle*Math.PI/180) * dist;
-	        $("#circle").animate({left: '+='+x+'px', top: '+='+y+'px'}, {
+	        $("#circle"+userId).animate({left: '+='+x+'px', top: '+='+y+'px'}, {
 	        	duration:1000,
 	        	step: function(){
-	        		var h1 = $("#circle").collision('.d1');
-	        		var h2 = $("#circle").collision('.d2');
-	        		var h3 = $("#circle").collision('.d3');
-	        		var h4 = $("#circle").collision('.d4');
-	        		var h5 = $("#circle").collision('.d5');
+	        		var h1 = $("#circle"+userId).collision('.d1');
+	        		var h2 = $("#circle"+userId).collision('.d2');
+	        		var h3 = $("#circle"+userId).collision('.d3');
+	        		var h4 = $("#circle"+userId).collision('.d4');
+	        		var h5 = $("#circle"+userId).collision('.d5');
 					if(h1.length > 0) hit1 = 1;
 					if(h2.length > 0) hit2 = 1;
 					if(h3.length > 0) hit3 = 1;
@@ -133,10 +150,11 @@
 					if(hit4 == 1) score --;
 					if(hit5 == 1) score ++;
 
-					$("#teamScore").html(score);
+					$(".teamScore").html(score);
 
 	        		console.log("hit 1 " + score);
 	        	}
+
 
 	        });
 	        	console.log(x);

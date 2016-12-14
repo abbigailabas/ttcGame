@@ -3,19 +3,25 @@
 <head>
 	<meta charset="UTF-8">
 	<title>index.html</title>
-	<link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
+
+    <!-- for start game -->
+
+<!-- once user starts button,button dissapears, new users can still join game -->
+
+
 	<script src="/socket.io/socket.io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="js/jquery.pep.js"></script>
 
-	<div id="wrapper">
-	  <button id="startGameBtnId" class="startGame" onclick="startGameBtn()">start game</button>
-	</div>
+<div id="wrapper">
+  <button id="startGameBtnId" class="startGame" onclick="startGameBtn()">start game</button>
+  <div class="banner"><p class="banner-text">&uarr; TOSS UP &uarr;</p></div>
+</div>
 
-	<!-- creating puck -->
     <script>
     var puckData;
     var startPos = {x: ($(window).width()/2-50),  y: ($(window).height()-100)};
@@ -24,15 +30,15 @@
 
     function createPuck(){
         var div = document.createElement("div");
-        div.style.width = "100px";
-        div.style.height = "100px";
+        div.style.width = "50px";
+        div.style.height = "50px";
         div.style.borderRadius = "50%";
         // div.style.background = "black";
         div.style.left = startPos.x + "px";
         div.style.top = startPos.y + "px";
         div.id = "circle";
         $("#wrapper").append(div);
-		//
+
         $('#circle').pep({
             constrainTo:"parent",
             useCSSTranslation: false,
@@ -53,6 +59,7 @@
             }
         });
     }
+
     createPuck();
 
     var socket = io();
@@ -62,16 +69,16 @@
         socket.emit('exitScreen', puckData);
         $('#circle').remove();
         createPuck();
-
     }
 
     // for start game
     function startGameBtn() {
         console.log("start btn pressed at index");
-		var snd = new Audio("sounds/TTC_ringtone.m4r"); // buffers automatically when created
-		snd.play();
+        var snd = new Audio("sounds/TTC_ringtone.m4r"); // buffers automatically when created
+        snd.play();
         socket.emit('newGame', 'data');
     }
+
 
     </script>
 

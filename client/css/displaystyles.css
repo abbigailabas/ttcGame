@@ -6,8 +6,9 @@
 }
 body {
     background-image: url('/images/game_background.png');
+    background-size: 100%;
 }
-#circle {
+.circle {
     position: absolute;
     display: inline-block;
     background-image: url('/images/token_blue.png');
@@ -21,18 +22,39 @@ body {
     display: inline-block;
 }
 .garbageCan img {
-    width: 100%;
+    width: 80%;
     display: inline-block;
     overflow: hidden;
 }
+
 .gameInfo {
     width: 100%;
-    background-color: #2384c9;
+    background-color: #2384c9 ;
     display: inline-block;
 }
 .gameInfoMiddle {
-    width: 25%;
+    width: 100%;
     height: 10%;
     margin: 0 auto;
-    /*display: inline-block;*/
+    text-align: center;
+}
+
+.wrapper {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.highScore {
+    margin-right:10%;
+    text-align: right;
+    float: right;
+    display: inline-block;
+}
+
+.alert{
+    margin-top:10%;
+    width:50%;
+    height:200px;
+    margin:0 auto;
+    text-align: center;
 }
