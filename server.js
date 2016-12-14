@@ -11,12 +11,18 @@ router.use(express.static(path.resolve(__dirname, 'client')));
 // Variables to hold the messages and the sockets
 var messages = [];
 var sockets = [];
-var playing = false;
+var usersCounter= 0;
 io.on('connection', function (socket) {
+
+    var playing = false;
+    var userID = usersCounter++;
     console.log('a user connected');
 
     //Listen for the event from the sensor.html
     socket.on('exitScreen', function (data1) {
+        console.log(userID,data1);
+
+        data1.userId = userID;
         if (playing == true) {
             io.emit('exitScreen', data1);
         }
