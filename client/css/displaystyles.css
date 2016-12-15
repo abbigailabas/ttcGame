@@ -2,11 +2,12 @@
     margin: 0px;
     padding: 0px;
     font-family: futura;
-    color: pink;
+    font-weight: 100;
+    color: white;
 }
 body {
     background-image: url('/images/game_background.png');
-    background-size: 100%;
+    background-size: 30px;
 }
 .circle {
     position: absolute;
@@ -29,19 +30,24 @@ body {
 
 .gameInfo {
     width: 100%;
-    background-color: #2384c9 ;
+    background-color: #1D1916;
     display: inline-block;
 }
-.gameInfoMiddle {
-    width: 100%;
-    height: 10%;
-    margin: 0 auto;
-    text-align: center;
+
+.gameTime, #countdown, .gameScore, .teamScore {
+    display: inline-block;
+    font-size: 26px;
+}
+
+#countdown, .teamScore {
+    color: #FFBE00;
 }
 
 .wrapper {
+    margin-left: 10%;
     display: inline-block;
     padding: 0 20px;
+
 }
 
 .highScore {
@@ -57,4 +63,10 @@ body {
     height:200px;
     margin:0 auto;
     text-align: center;
+    background-color: black;
+    color: white;
+}
+
+span {
+    color: #FFBE00;
 }

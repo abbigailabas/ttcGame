@@ -18,7 +18,7 @@
     <script src="js/jquery.pep.js"></script>
 
 <div id="wrapper">
-  <button id="startGameBtnId" class="startGame" onclick="startGameBtn()">start game</button>
+  <button id="startGameBtnId" class="startGame" onclick="startGameBtn()">JOIN GAME</button>
   <div class="banner"><p class="banner-text">&uarr; TOSS UP &uarr;</p></div>
 </div>
 
@@ -60,7 +60,7 @@
         });
     }
 
-    createPuck();
+
 
     var socket = io();
 
@@ -73,6 +73,7 @@
 
     // for start game
     function startGameBtn() {
+        createPuck();
         console.log("start btn pressed at index");
         var snd = new Audio("sounds/TTC_ringtone.m4r"); // buffers automatically when created
         snd.play();
